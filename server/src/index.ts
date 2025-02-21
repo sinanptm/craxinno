@@ -2,6 +2,7 @@ import express, { json, urlencoded } from 'express';
 import router from './router';
 import cors from 'cors';
 import { CLIENT_URL, PORT } from './config';
+import connectDb from './config/connectDb';
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.use(cors({
 app.use('/api', router);
 
 app.listen(PORT, () => {
+    connectDb()
     console.log("started");
 });

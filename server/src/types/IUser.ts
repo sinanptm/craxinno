@@ -1,9 +1,9 @@
 export default interface IUser {
-    readonly id?: string;
+    readonly _id?: string;
     readonly email?: string;
     readonly fullName?: string;
     readonly password?: string;
-    readonly phoneNumber?: string;
+    readonly phone?: string;
     readonly title?: string; // e.g., Mr., Ms., Dr.
     readonly dateOfBirth?: string | Date;
     readonly homeAddress?: string;

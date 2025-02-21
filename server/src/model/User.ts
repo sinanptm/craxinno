@@ -3,11 +3,10 @@ import IUser from "../types/IUser";
 
 const userSchema = new Schema<IUser>(
     {
-        id: { type: String },
         email: { type: String, required: true, unique: true },
-        phoneNumber: { type: String, required: true, unique: true },
-        fullName: { type: String, required: true },
+        phone: { type: String, required: true, unique: true },
         password: { type: String, required: true },
+        fullName: { type: String },
         title: { type: String },
         dateOfBirth: { type: Date },
         homeAddress: { type: String },
@@ -16,7 +15,10 @@ const userSchema = new Schema<IUser>(
         employmentStatus: { type: String },
         financialAssets: { type: String },
     },
-    { timestamps: true }
+    { 
+        timestamps: true,
+        versionKey:false
+     }
 );
 
 const User = model<IUser>("User", userSchema);

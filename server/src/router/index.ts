@@ -1,13 +1,13 @@
 import { Router } from "express";
 import createUserController from "../controller/createUserController";
-import addPersonalInfoController from "../controller/addPersonalInfoController";
+import updateUserInfo from "../controller/updateUserInfo";
 import errorHandler from "../middleware/errorHandler";
 
 const router = Router();
 
 router.post("/createUser", createUserController);
-router.put("/addUserInfo", addPersonalInfoController);
+router.put("/update/:id", updateUserInfo);
 
-router.use(errorHandler)
+router.use(errorHandler);
 
 export default router;
