@@ -1,4 +1,3 @@
-"use client";
 
 import { MovingInput } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";

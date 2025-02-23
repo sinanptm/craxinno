@@ -12,8 +12,9 @@ app.use(cors({
     origin: CLIENT_URL,
     methods: ["PUT", "POST"]
 }));
-
+app.get("/test", (req,res)=>{res.send("Success")});
 app.use('/api', router);
+
 
 app.listen(PORT, () => {
     connectDb()
