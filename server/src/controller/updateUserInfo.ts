@@ -15,9 +15,9 @@ const updateUserInfo = async (req: Request, res: Response, next: NextFunction) =
         }
 
 
-       await User.findByIdAndUpdate(userId, updateData, { new: true });
+       const user = await User.findByIdAndUpdate(userId, updateData, { new: true }).select("-password").lean().exec();
 
-        res.status(StatusCode.Success).json({ message: "User data updated" });
+        res.status(StatusCode.Success).json({ message: "User data updated", user:{...user} });
     } catch (error) {
         next(error);
     }

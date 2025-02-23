@@ -1,5 +1,5 @@
 import { API_URL } from '@/config';
-import { SignupPayloads } from '@/types';
+import { IUser, RegisterPayloads, SignupPayloads } from '@/types';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -9,7 +9,13 @@ const instance = axios.create({
     }
 });
 
-export const signup = async ({ email, password, phone }: SignupPayloads): Promise<{ userId: string; }> => {
-    const response = await instance.post("/createUser", { email, password, phone });
+export const signup = async (data: SignupPayloads): Promise<{ userId: string; }> => {
+    const response = await instance.post("/createUser", data);
+    return response.data;
+};
+
+
+export const register = async ({ userId, ...data }: RegisterPayloads) :Promise<{user:IUser}>=> {
+    const response = await instance.put(`updateUser/${userId}`, data);
     return response.data;
 };

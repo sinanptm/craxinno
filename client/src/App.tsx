@@ -3,6 +3,7 @@ import RegisterPage from "./pages/RegisterPage";
 import SignUpPage from "./pages/SignupPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import NavBar from "./components/NavBar";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
 
         <Route path="/" element={<SignUpPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

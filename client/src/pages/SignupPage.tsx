@@ -9,7 +9,7 @@ import { validateSignupForm } from "@/lib/formValidation";
 import { signup } from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setId } from "@/store/features/authSlice";
+import { setId } from "@/store/authSlice";
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
@@ -22,12 +22,18 @@ const SignupPage = () => {
     password: '',
     confirmPassword: ''
   });
+  const [isLoading, setLoading]  = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userId = useAppSelector((state) => state.auth.userId);
+  const user = useAppSelector(state=>state.auth.user)
 
   useEffect(() => {
+    if(user&&user._id){
+      navigate("/profile");
+      return
+    }
     if (userId || userId.length >1) {
       navigate("/register");
     }
@@ -36,6 +42,7 @@ const SignupPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
+      setLoading(true)
 
       const newErrors = validateSignupForm(phone as string, email, password, confirmPassword);
       setErrors(newErrors);
@@ -66,6 +73,8 @@ const SignupPage = () => {
         title: "Error in submitting form",
         description: error.response.data.message || "Failed to submit form. Please try again.",
       });
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -143,8 +152,8 @@ const SignupPage = () => {
                 <p>We need a password to keep your information safe. But don't worry, we'll also send your custom RentlyPass URL via email.</p>
               </div>
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
-                Create your account
+              <Button type="submit" disabled={isLoading} className="w-full bg-blue-600 hover:bg-blue-700">
+                {isLoading?"Submitting...":"Create your account"}
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">

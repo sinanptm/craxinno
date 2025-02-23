@@ -1,5 +1,4 @@
-
-import { useState, ChangeEvent, FormEvent, memo } from "react";
+import { useState, ChangeEvent, FormEvent, memo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
@@ -8,6 +7,10 @@ import { FormData } from "@/types";
 import { validateStep1, validateStep2 } from "@/lib/formValidation";
 import { PersonalInfoStep } from "@/components/registration/PersonalInfoStep";
 import { FinancialInfoStep } from "@/components/registration/FinancialInfoStep";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { register } from "@/lib/api";
+import { useNavigate } from "react-router-dom";
+import { removeId, setUser } from "@/store/authSlice";
 
 const INITIAL_FORM_DATA: FormData = {
   title: "mr",
@@ -20,10 +23,21 @@ const INITIAL_FORM_DATA: FormData = {
   savings: "",
 };
 
-const  RegistrationPage = () => {
+const RegistrationPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
+  const userId = useAppSelector(state => state.auth.userId);
+  const router = useNavigate();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.auth.user);
+
+  useEffect(() => {
+    if (user && user._id) {
+      router('/profile');
+      return;
+    }
+  }, []);
 
   const handleChange = (field: keyof FormData) => (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
@@ -33,8 +47,10 @@ const  RegistrationPage = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const { about, address, dateOfBirth, duration, employment, fullName, savings, title } = formData;
 
     const error = step === 1 ? validateStep1(formData) : validateStep2(formData);
 
@@ -54,18 +70,24 @@ const  RegistrationPage = () => {
 
     try {
       setIsLoading(true);
-      // API call here
+      const { user } = await register({ userId, bio: about, dateOfBirth, employmentStatus: employment, name: fullName, financialAssets: savings, title, homeAddress: address, yearsAtAddress: duration });
       toast({
         title: "Success!",
         variant: "success",
-        description: "Your registration has been submitted successfully.",
+        description: "Your registration has been completed successfully.",
       });
-    } catch (error) {
+      dispatch(removeId());
+      dispatch(setUser({ user }));
+      setFormData(INITIAL_FORM_DATA);
+      router('/profile');
+
+      //eslint-disable-next-line
+    } catch (error: any) {
       console.log(error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to submit form. Please try again.",
+        description: error.response.data.message || "Failed to submit form. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -127,6 +149,6 @@ const  RegistrationPage = () => {
       </Card>
     </div>
   );
-}
+};
 
-export default memo(RegistrationPage)
+export default memo(RegistrationPage);

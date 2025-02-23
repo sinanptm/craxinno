@@ -1,7 +1,9 @@
+import { IUser } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: { userId: string; } = {
+const initialState: { userId: string; user: IUser; } = {
   userId: localStorage.getItem("userId") ?? "",
+  user: JSON.parse(localStorage.getItem("user") || "{}")
 };
 
 const authSlice = createSlice({
@@ -12,6 +14,10 @@ const authSlice = createSlice({
       state.userId = action.payload.userId;
       localStorage.setItem("userId", action.payload.userId);
     },
+    setUser: (state, action: PayloadAction<{ user: IUser; }>) => {
+      state.user = action.payload.user;
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+    },
     removeId: (state) => {
       state.userId = '';
       localStorage.removeItem("userId");
@@ -19,5 +25,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setId, removeId } = authSlice.actions;
+export const { setId, removeId, setUser } = authSlice.actions;
 export default authSlice.reducer;

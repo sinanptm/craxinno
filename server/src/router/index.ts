@@ -6,7 +6,7 @@ import errorHandler from "../middleware/errorHandler";
 const router = Router();
 
 router.post("/createUser", createUserController);
-router.put("/update/:id", updateUserInfo);
+router.put("/updateUser/:id", updateUserInfo);
 
 router.use(errorHandler);
 
