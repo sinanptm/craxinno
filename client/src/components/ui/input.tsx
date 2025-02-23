@@ -27,9 +27,10 @@ type Props = {
   type: string;
   label:string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name:string;
 };
 
-export function MovingInput({ onChange, type, value, label }: Props) {
+export function MovingInput({ onChange, type, value, label, name }: Props) {
   const id = useId()
   return (
     <div className="group relative">
@@ -45,6 +46,7 @@ export function MovingInput({ onChange, type, value, label }: Props) {
         type={type}
         onChange={onChange}
         placeholder=""
+        name={name}
         value={value}
       />
     </div>

@@ -1,23 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: { isAuthenticated: boolean } = {
-  isAuthenticated: localStorage.getItem("isAuthenticated") === "true", 
+const initialState: { userId: string; } = {
+  userId: localStorage.getItem("userId") ?? "",
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state) => {
-      state.isAuthenticated = true;
-      localStorage.setItem("isAuthenticated", "true"); 
+    setId: (state, action: PayloadAction<{ userId: string; }>) => {
+      state.userId = action.payload.userId;
+      localStorage.setItem("userId", action.payload.userId);
     },
-    logout: (state) => {
-      state.isAuthenticated = false;
-      localStorage.removeItem("isAuthenticated"); 
+    removeId: (state) => {
+      state.userId = '';
+      localStorage.removeItem("userId");
     },
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setId, removeId } = authSlice.actions;
 export default authSlice.reducer;

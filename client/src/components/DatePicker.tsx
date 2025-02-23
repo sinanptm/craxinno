@@ -3,32 +3,33 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { memo, useId, useState } from "react";
+import { Dispatch, memo, SetStateAction, useId, } from "react";
 
-const DatePicker = ()=> {
+type Props = {
+  date: Date | undefined;
+  setDate: Dispatch<SetStateAction<any>>;
+};
+
+const DatePicker = ({ date, setDate }: Props) => {
   const id = useId();
-  const [date, setDate] = useState<Date | undefined>();
-
   return (
     <div>
       <div className="*:not-first:mt-2">
-        <Label htmlFor={id}>Date picker</Label>
         <Popover>
           <PopoverTrigger asChild>
             <Button
               id={id}
               variant={"outline"}
               className={cn(
-                "group bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
+                "group h-12 bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
                 !date && "text-muted-foreground",
               )}
             >
               <span className={cn("truncate", !date && "text-muted-foreground")}>
-                {date ? format(date, "PPP") : "Pick a date"}
+                {date ? format(date, "PPP") : "Date of birth"}
               </span>
               <CalendarIcon
                 size={16}
@@ -38,23 +39,12 @@ const DatePicker = ()=> {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-2" align="start">
-            <Calendar mode="single" selected={date} onSelect={setDate} />
+            <Calendar mode="single" required selected={date} onSelect={setDate} />
           </PopoverContent>
         </Popover>
       </div>
-      <p className="text-muted-foreground mt-2 text-xs" role="region" aria-live="polite">
-        Built with{" "}
-        <a
-          className="hover:text-foreground underline"
-          href="https://daypicker.dev/"
-          target="_blank"
-          rel="noopener nofollow"
-        >
-          React DayPicker
-        </a>
-      </p>
     </div>
   );
-}
+};
 
-export default memo(DatePicker)
+export default memo(DatePicker);

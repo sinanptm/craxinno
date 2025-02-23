@@ -26,6 +26,7 @@ const SignupPage = ()=> {
                 <h3 className="text-sm font-bold text-gray-500 mb-4">Contact details</h3>
                 <MovingInput 
                   type="email" 
+                  name="email"
                   value={email} 
                   label="Email address" 
                   onChange={(e) => setEmail(e.target.value)} 
@@ -35,6 +36,7 @@ const SignupPage = ()=> {
               <div className="relative">
                 <MovingInput 
                   type="tel" 
+                  name="phone"
                   value={phone} 
                   label="Mobile number" 
                   onChange={(e) => setPhone(e.target.value)} 
