@@ -7,18 +7,20 @@ import { hash } from 'bcryptjs';
 const createUserController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, phone, password } = req.body;
+        console.log(req.body);
+
         validate(email, phone, password);
 
         const hashedPassword = await hash(password!, 10);
 
-        const userId =   (await User.create({ email, phone, password: hashedPassword }))._id;
+        const userId = (await User.create({ email, phone, password: hashedPassword }))._id;
 
         res.status(StatusCode.Created).json({ message: "User created successfully", userId });
-    } catch (error:any) {
+    } catch (error: any) {
         if (error.code === 11000) {
-            const duplicateField = Object.keys(error.keyValue)[0]; 
+            const duplicateField = Object.keys(error.keyValue)[0];
             next(new CustomError(`${duplicateField} already exists`, StatusCode.Conflict));
-            return
+            return;
         }
         next(error);
     }

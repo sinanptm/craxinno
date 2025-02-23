@@ -28,9 +28,10 @@ type Props = {
   label:string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name:string;
+  autoComplete?:string|undefined
 };
 
-export function MovingInput({ onChange, type, value, label, name }: Props) {
+export function MovingInput({ onChange, type, value, label, name, autoComplete }: Props) {
   const id = useId()
   return (
     <div className="group relative">
@@ -46,6 +47,7 @@ export function MovingInput({ onChange, type, value, label, name }: Props) {
         type={type}
         onChange={onChange}
         placeholder=""
+        autoComplete={autoComplete}
         name={name}
         value={value}
       />

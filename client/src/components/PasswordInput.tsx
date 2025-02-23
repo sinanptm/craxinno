@@ -22,6 +22,7 @@ const PasswordInput = ({ label, onChange, value }: Props) => {
         <MovingInput
           type={isVisible ? "text" : "password"}
           label={label}
+          autoComplete="new-password"
           onChange={onChange}
           name="password"
           value={value}
@@ -32,6 +33,7 @@ const PasswordInput = ({ label, onChange, value }: Props) => {
           onClick={toggleVisibility}
           aria-label={isVisible ? "Hide password" : "Show password"}
           aria-pressed={isVisible}
+          
           aria-controls="password"
         >
           {isVisible ? (
