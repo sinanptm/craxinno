@@ -7,7 +7,6 @@ import { hash } from 'bcryptjs';
 const createUserController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, phone, password } = req.body;
-        console.log(req.body);
 
         validate(email, phone, password);
 

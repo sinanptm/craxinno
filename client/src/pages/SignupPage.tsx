@@ -28,10 +28,10 @@ const SignupPage = () => {
   const userId = useAppSelector((state) => state.auth.userId);
 
   useEffect(() => {
-    if (!userId || userId.length > 5) {
+    if (userId || userId.length >1) {
       navigate("/register");
     }
-  }, []);
+  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     try {

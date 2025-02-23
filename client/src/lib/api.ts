@@ -1,4 +1,5 @@
 import { API_URL } from '@/config';
+import { SignupPayloads } from '@/types';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -7,12 +8,6 @@ const instance = axios.create({
         "Content-Type": "application/json"
     }
 });
-
-type SignupPayloads = {
-    email: string;
-    phone: string;
-    password: string;
-};
 
 export const signup = async ({ email, password, phone }: SignupPayloads): Promise<{ userId: string; }> => {
     const response = await instance.post("/createUser", { email, password, phone });

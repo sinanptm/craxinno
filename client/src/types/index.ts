@@ -10,3 +10,8 @@ export type FormData = {
   savings: string;
 };
 
+export type SignupPayloads = {
+    email: string;
+    phone: string;
+    password: string;
+};
