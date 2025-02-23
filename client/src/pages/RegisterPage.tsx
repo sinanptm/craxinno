@@ -1,5 +1,5 @@
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
@@ -20,7 +20,7 @@ const INITIAL_FORM_DATA: FormData = {
   savings: "",
 };
 
-export default function RegistrationForm() {
+const  RegistrationPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
@@ -128,3 +128,5 @@ export default function RegistrationForm() {
     </div>
   );
 }
+
+export default memo(RegistrationPage)
