@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import * as React from "react";
 import { DayPicker } from "react-day-picker";
@@ -56,6 +54,7 @@ function Calendar({
   );
 
   const defaultComponents = {
+    //eslint-disable-next-line
     Chevron: (props: any) => {
       if (props.orientation === "left") {
         return <ChevronLeftIcon size={16} {...props} aria-hidden="true" />;

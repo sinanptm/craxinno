@@ -61,6 +61,7 @@ export default function RegistrationForm() {
         description: "Your registration has been submitted successfully.",
       });
     } catch (error) {
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Error",

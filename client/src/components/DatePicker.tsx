@@ -10,6 +10,7 @@ import { Dispatch, memo, SetStateAction, useId, } from "react";
 
 type Props = {
   date: Date | undefined;
+  // eslint-disable-next-line
   setDate: Dispatch<SetStateAction<any>>;
 };
 
