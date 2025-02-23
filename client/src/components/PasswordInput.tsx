@@ -24,6 +24,7 @@ const PasswordInput = ({ label, onChange, value }: Props) => {
           type={isVisible ? "text" : "password"}
           label={label}
           onChange={onChange}
+          name="password"
           value={value}
         />
         <button
