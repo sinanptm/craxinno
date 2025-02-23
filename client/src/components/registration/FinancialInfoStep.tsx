@@ -1,7 +1,7 @@
 import { FormData } from "@/types";
 import { MovingInput } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ChangeEvent } from "react";
+import { ChangeEvent, memo } from "react";
 
 interface FinancialInfoStepProps {
   formData: FormData;
@@ -9,7 +9,7 @@ interface FinancialInfoStepProps {
   handleSelectChange: (field: keyof FormData) => (value: string) => void;
 }
 
-export const FinancialInfoStep = ({ formData, handleChange, handleSelectChange }: FinancialInfoStepProps) => {
+const FinancialInfoStep = ({ formData, handleChange, handleSelectChange }: FinancialInfoStepProps) => {
   return (
     <div className="space-y-4">
       <h3 className="text-sm font-bold text-gray-500 mb-4">Financial details</h3>
@@ -37,3 +37,5 @@ export const FinancialInfoStep = ({ formData, handleChange, handleSelectChange }
     </div>
   );
 };
+
+export default memo(FinancialInfoStep);

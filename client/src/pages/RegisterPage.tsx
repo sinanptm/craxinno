@@ -1,13 +1,13 @@
-import { useState, ChangeEvent, FormEvent, memo, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent, memo, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/useToast";
 import { cn } from "@/lib/utils";
 import { FormData } from "@/types";
 import { validateStep1, validateStep2 } from "@/lib/formValidation";
-import { PersonalInfoStep } from "@/components/registration/PersonalInfoStep";
-import { FinancialInfoStep } from "@/components/registration/FinancialInfoStep";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import PersonalInfoStep from "@/components/registration/PersonalInfoStep";
+import FinancialInfoStep from "@/components/registration/FinancialInfoStep";
+import useStore from "@/hooks/useStore";
 import { register } from "@/lib/api";
 import { useNavigate } from "react-router-dom";
 import { removeId, setUser } from "@/store/authSlice";
@@ -27,72 +27,85 @@ const RegistrationPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
-  const userId = useAppSelector(state => state.auth.userId);
   const router = useNavigate();
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.auth.user);
+  const { dispatch, user, userId } = useStore();
 
   useEffect(() => {
     if (user && user._id) {
-      router('/profile');
-      return;
+      router("/profile");
     }
   }, [user, router]);
 
-  const handleChange = (field: keyof FormData) => (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [field]: e.target.value }));
-  };
+  const handleChange = useCallback(
+    (field: keyof FormData) => (e: ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    },
+    []
+  );
 
-  const handleSelectChange = (field: keyof FormData) => (value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  const handleSelectChange = useCallback(
+    (field: keyof FormData) => (value: string) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    },
+    []
+  );
 
+  const handleSubmit = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      const error = step === 1 ? validateStep1(formData) : validateStep2(formData);
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const { about, address, dateOfBirth, duration, employment, fullName, savings, title } = formData;
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Validation Error",
+          description: error,
+        });
+        return;
+      }
 
-    const error = step === 1 ? validateStep1(formData) : validateStep2(formData);
+      if (step === 1) {
+        setStep(2);
+        return;
+      }
 
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: error,
-      });
-      return;
-    }
+      try {
+        setIsLoading(true);
+        const response = await register({
+          userId,
+          bio: formData.about,
+          dateOfBirth: formData.dateOfBirth,
+          employmentStatus: formData.employment,
+          name: formData.fullName,
+          financialAssets: formData.savings,
+          title: formData.title,
+          homeAddress: formData.address,
+          yearsAtAddress: formData.duration,
+        });
 
-    if (step === 1) {
-      setStep(2);
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const { user } = await register({ userId, bio: about, dateOfBirth, employmentStatus: employment, name: fullName, financialAssets: savings, title, homeAddress: address, yearsAtAddress: duration });
-      toast({
-        title: "Success!",
-        variant: "success",
-        description: "Your registration has been completed successfully.",
-      });
-      dispatch(removeId());
-      dispatch(setUser({ user }));
-      setFormData(INITIAL_FORM_DATA);
-      router('/profile');
-
-      //eslint-disable-next-line
-    } catch (error: any) {
-      console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.response.data.message || "Failed to submit form. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        toast({
+          title: "Success!",
+          variant: "success",
+          description: "Your registration has been completed successfully.",
+        });
+        dispatch(removeId());
+        dispatch(setUser({ user: response.user }));
+        setFormData(INITIAL_FORM_DATA);
+        router("/profile");
+        //eslint-disable-next-line
+      } catch (error: any) {
+        console.error(error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error?.response?.data?.message || "Failed to submit form. Please try again.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [step, formData, userId, dispatch, router]
+  );
 
   return (
     <div className="flex items-center justify-center p-4">

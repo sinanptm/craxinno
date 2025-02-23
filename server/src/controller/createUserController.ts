@@ -15,6 +15,7 @@ const createUserController = async (req: Request, res: Response, next: NextFunct
         const userId = (await User.create({ email, phone, password: hashedPassword }))._id;
 
         res.status(StatusCode.Created).json({ message: "User created successfully", userId });
+        
     } catch (error: any) {
         if (error.code === 11000) {
             const duplicateField = Object.keys(error.keyValue)[0];

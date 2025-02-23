@@ -1,11 +1,11 @@
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
-import { useAppSelector } from '@/store/hooks';
+import useStore from '@/hooks/useStore';
 import { format, parseISO } from 'date-fns';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
-    const user = useAppSelector(state => state.auth.user);
+    const {user} = useStore()
     const router = useNavigate()
 
     useEffect(()=>{

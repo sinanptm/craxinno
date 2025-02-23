@@ -4,7 +4,7 @@ import { MovingInput } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import DatePicker from "@/components/DatePicker";
-import { ChangeEvent } from "react";
+import { ChangeEvent, memo } from "react";
 
 interface PersonalInfoStepProps {
   formData: FormData;
@@ -13,7 +13,7 @@ interface PersonalInfoStepProps {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }
 
-export const PersonalInfoStep = ({
+const PersonalInfoStep = ({
   formData,
   handleChange,
   handleSelectChange,
@@ -101,3 +101,5 @@ export const PersonalInfoStep = ({
     </div>
   );
 };
+
+export default memo(PersonalInfoStep);
