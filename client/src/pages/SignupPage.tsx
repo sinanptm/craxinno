@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import PasswordInput from "./PasswordInput";
-import { MovingInput } from "../ui/input";
-import { useState } from "react";
+import PasswordInput from "../components/PasswordInput";
+import { MovingInput } from "../components/ui/input";
+import { memo, useState } from "react";
 import { InfoIcon } from 'lucide-react';
 import { Link } from "react-router-dom";
 
-export default function SignUpForm() {
+const SignupPage = ()=> {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState<number | string>('');
   const [password, setPassword] = useState('');
@@ -92,3 +92,5 @@ export default function SignUpForm() {
     </div>
   );
 }
+
+export default memo(SignupPage)

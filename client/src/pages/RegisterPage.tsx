@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from "react";
 
 const RegisterPage = () => {
   return (
@@ -6,4 +6,4 @@ const RegisterPage = () => {
   )
 }
 
-export default RegisterPage
+export default memo(RegisterPage)
