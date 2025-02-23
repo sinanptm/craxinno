@@ -1,22 +1,27 @@
 import { Routes, Route } from "react-router-dom";
-import RegisterPage from "./pages/RegisterPage";
-import SignUpPage from "./pages/SignupPage";
-import NotFoundPage from "./pages/NotFoundPage";
 import NavBar from "./components/NavBar";
-import ProfilePage from "./pages/ProfilePage";
+import { lazy, Suspense } from "react";
+import Loading from "./components/Loading";
+
+const SignUpPage = lazy(() => import("@/pages/SignupPage"));
+const RegisterPage = lazy(() => import("@/pages/RegisterPage"));
+const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
+const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
 
 const App = () => {
   return (
     <main>
       <NavBar />
-      <Routes>
+      <Suspense fallback={<Loading />}>
+        <Routes>
 
-        <Route path="/" element={<SignUpPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/" element={<SignUpPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
 
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
     </main>
   );
 };

@@ -1,9 +1,18 @@
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
 import { useAppSelector } from '@/store/hooks';
 import { format, parseISO } from 'date-fns';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
     const user = useAppSelector(state => state.auth.user);
+    const router = useNavigate()
+
+    useEffect(()=>{
+        if(!user||!user._id){
+            router("/")
+        }
+    }, [user, router])
 
     const capitalizeFirstLetter = (string: string) => {
         if (!string) return '';
@@ -15,6 +24,7 @@ const ProfilePage = () => {
         try {
             return format(parseISO(dateString), 'PPP');
         } catch (error) {
+            console.log(error);
             return 'Invalid date';
         }
     };

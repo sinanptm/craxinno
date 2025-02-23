@@ -37,7 +37,7 @@ const RegistrationPage = () => {
       router('/profile');
       return;
     }
-  }, []);
+  }, [user, router]);
 
   const handleChange = (field: keyof FormData) => (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));

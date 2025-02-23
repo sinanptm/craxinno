@@ -22,27 +22,27 @@ const SignupPage = () => {
     password: '',
     confirmPassword: ''
   });
-  const [isLoading, setLoading]  = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userId = useAppSelector((state) => state.auth.userId);
-  const user = useAppSelector(state=>state.auth.user)
+  const user = useAppSelector(state => state.auth.user);
 
   useEffect(() => {
-    if(user&&user._id){
+    if (user && user._id) {
       navigate("/profile");
-      return
+      return;
     }
-    if (userId || userId.length >1) {
+    if (userId || userId.length > 1) {
       navigate("/register");
     }
-  }, [navigate]);
+  }, [navigate, user, userId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
-      setLoading(true)
+      setLoading(true);
 
       const newErrors = validateSignupForm(phone as string, email, password, confirmPassword);
       setErrors(newErrors);
@@ -73,8 +73,8 @@ const SignupPage = () => {
         title: "Error in submitting form",
         description: error.response.data.message || "Failed to submit form. Please try again.",
       });
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -153,7 +153,7 @@ const SignupPage = () => {
               </div>
 
               <Button type="submit" disabled={isLoading} className="w-full bg-blue-600 hover:bg-blue-700">
-                {isLoading?"Submitting...":"Create your account"}
+                {isLoading ? "Submitting..." : "Create your account"}
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
