@@ -9,7 +9,7 @@
 ## 🚀 Live Demo
 
 - ✨ Frontend: [craxinno.vercel.app/](https://craxinno.vercel.app)
-- 🔌 Backend API: [task.avm-ayurvedic.online/tasks](https://task.avm-ayurvedic.online)
+- 🔌 Backend API: [task.avm-ayurvedic.online](https://task.avm-ayurvedic.online) 
 
 
 ### Frontend Technologies
