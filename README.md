@@ -8,7 +8,7 @@
 
 ## 🚀 Live Demo
 
-- ✨ Frontend: [task-management-sinanptms.vercel.app](https://craxinno.vercel.app)
+- ✨ Frontend: [craxinno.vercel.app/](https://craxinno.vercel.app)
 - 🔌 Backend API: [task.avm-ayurvedic.online/tasks](https://task.avm-ayurvedic.online)
 
 
