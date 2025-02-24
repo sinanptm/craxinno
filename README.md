@@ -73,10 +73,10 @@ pnpm dev
 
 ## 📡 API Endpoints
 
-| Method | Endpoint          | Description             |
-|--------|-------------------|-------------------------|
-| POST   | /createUser       | Create User             |
-| PUT    | /updateUser/:id   | Update an existing user |
+| Method | Endpoint              | Description             |
+|--------|-----------------------|-------------------------|
+| POST   | /api/createUser       | Create User             |
+| PUT    | /api/updateUser/:id   | Update an existing user |
 
 ## 🚀 Deployment
 
